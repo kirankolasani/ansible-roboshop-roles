@@ -1,0 +1,35 @@
+- name: Install NodeJS
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: nodejs
+
+- name: App setup
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app-setup
+
+- name: installing dependencies 
+  ansible.builtin.command: npm install 
+  args:
+    chdir: /app
+
+- name: coping {{component}}.service file
+  ansible.builtin.copy:
+    src: "{{component}}.service"
+    dest: /etc/systemd/system/{{component}}.service
+
+- name: Setup Mongodb Repo
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: mongodb-repo
+
+- name: Load app data into MongoDB schema
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: load-mongodb-schema
+  
+
+- name: Enable & Start {{component}}
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app-service    
