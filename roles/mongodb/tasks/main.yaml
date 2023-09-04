@@ -1,13 +1,20 @@
 - name: Setup mongodb Repo
   ansible.builtin.import_role:
     name: common
-    tasks_from: mongodb-repo-config
+    tasks_from: mongodb-repo
 
 - name: installing mongodb 
   ansible.builtin.yum:
     name: mongodb-org
     state: installed
-    
+
+- name: editing or replacing ip address in mongo.conf file.
+  ansible.builtin.replace:
+    path: /etc/mongod.conf
+    regexp: '127.0.0.1'
+    replace: '0.0.0.0'
+
+
 - name: enabling & starting service
   ansible.builtin.service:
     name: mongod

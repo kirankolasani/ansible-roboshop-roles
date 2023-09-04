@@ -1,0 +1,8 @@
+  - name: installing mongodb client
+    ansible.builtin.yum:
+      name: mongodb-org-shell
+      state: installed
+
+  - name: Loading catalogue date into mongodb Schema
+    # ansible.builtin.command: mongo --host mongodb.devopsaws.site < /app/schema/catalogue.js
+    ansible.builtin.shell:  'mongo --host mongodb.devopsaws.site < /app/schema/{{component}}.js'
