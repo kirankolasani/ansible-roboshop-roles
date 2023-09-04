@@ -1,13 +1,18 @@
 
+- name: Setup mongo repo
+  ansible.builtin.copy:
+    src: mongo.repo
+    dest: /etc/yum.repos.d/mongo.repo
+
 - name: copying mongodb Repo
   ansible.builtin.import_role:
     name: common
     tasks_from: mongodb-repo-config
 
-- name: Setup mongo repo
-  ansible.builtin.copy:
-    src: mongo.repo
-    dest: /etc/yum.repos.d/mongo.repo
+- name: installing mongodb 
+  ansible.builtin.yum:
+    name: mongodb-org
+    state: installed
 
 - name: enable remote connections to mongodb
   ansible.builtin.replace:
@@ -15,10 +20,7 @@
     regexp: '127.0.0.1'
     replace: '0.0.0.0'
 
-- name: installing mongodb 
-  ansible.builtin.yum:
-    name: mongodb-org
-    state: installed
+
 
 - name: enabling & starting service
   ansible.builtin.service:
