@@ -9,9 +9,9 @@
     tasks_from: app-setup
 
 - name: installing dependencies 
-    ansible.builtin.command: npm install 
-    args:
-      chdir: /app
+  ansible.builtin.command: npm install 
+  args:
+    chdir: /app
 
 - name: coping {{component}}.service file
   ansible.builtin.copy:
