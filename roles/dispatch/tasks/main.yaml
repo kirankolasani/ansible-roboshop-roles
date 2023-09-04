@@ -2,7 +2,7 @@
   ansible.builtin.import_role:
     name: common
     tasks_from: go-setup
-    
+
 - name: App setup
   ansible.builtin.import_role:
     name: common
@@ -22,8 +22,10 @@
     src: "{{component}}.service"
     dest: /etc/systemd/system/{{component}}.service
 
-- name: Enable & Start {{component}} service
+- name: Enable & Start {{component}}
   ansible.builtin.import_role:
-    name: "{{component}}"
-    tasks_from: app-service
+    name: common
+    tasks_from: app-service   
+
+
     
