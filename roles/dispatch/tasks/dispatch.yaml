@@ -2,7 +2,7 @@
   ansible.builtin.import_role:
     name: common
     tasks_from: go-setup
-
+    
 - name: App setup
   ansible.builtin.import_role:
     name: common
