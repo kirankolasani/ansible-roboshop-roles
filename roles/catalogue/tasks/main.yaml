@@ -18,19 +18,18 @@
     src: "{{component}}.service"
     dest: /etc/systemd/system/{{component}}.service
 
+- name: Setup Mongodb Repo
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: mongodb-repo
 
-  - name: Setup Mongodb Repo
-    ansible.builtin.import_role:
-      name: common
-      tasks_from: mongodb-repo
-
-  - name: Load app data into MongoDB schema
-    ansible.builtin.import_role:
-      name: common
-      tasks_from: load-mongodb-schema
+- name: Load app data into MongoDB schema
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: load-mongodb-schema
   
 
-  - name: Enable & Start {{component}}
-    ansible.builtin.import_role:
-      name: common
-      tasks_from: app-service    
+- name: Enable & Start {{component}}
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app-service    
