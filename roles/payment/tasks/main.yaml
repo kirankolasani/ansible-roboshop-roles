@@ -1,0 +1,24 @@
+- name: Install Python
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: python-setup
+
+- name: App setup
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app-setup
+
+- name: installing dependencies 
+  ansible.builtin.command: pip3.6 install -r requirements.txt
+  args:
+    chdir: /app
+
+- name: coping {{component}}.service file
+  ansible.builtin.copy:
+    src: "{{component}}.service"
+    dest: /etc/systemd/system/{{component}}.service
+
+- name: Enable & Start {{component}}
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app-service    

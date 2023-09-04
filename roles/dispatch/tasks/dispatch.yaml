@@ -1,0 +1,29 @@
+- name: Install GoLang
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: go-setup
+
+- name: App setup
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app-setup
+
+- name: download the dependencies.
+  ansible.builtin.shell: '{{item}}'
+  args:
+    chdir: /app
+  loop:
+    - 'go mod init dispatch'
+    - 'go get'
+    - 'go build'
+
+- name: coping {{component}}.service file
+  ansible.builtin.copy:
+    src: "{{component}}.service"
+    dest: /etc/systemd/system/{{component}}.service
+
+- name: Enable & Start {{component}} service
+  ansible.builtin.import_role:
+    name: "{{component}}"
+    tasks_from: app-service
+    

@@ -1,0 +1,22 @@
+- name: instlling nginx server
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: nginx-setup
+
+- name: removing all files
+  ansible.builtin.file:
+    path: /usr/share/nginx/html/*
+    state: absent
+
+- name: Download and unzipping package of web app
+  ansible.builtin.unarchive:
+    src: https://roboshop-builds.s3.amazonaws.com/{{component}}.zip
+    dest: /usr/share/nginx/html
+    remote_src: yes 
+
+- name: copy roboshop.conf
+  ansible.builtin.template:
+    src: roboshop.conf
+    dest: /etc/nginx/default.d/roboshop.conf
+  notify:
+  - restart nginx

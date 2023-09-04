@@ -1,0 +1,5 @@
+CATALOGUE_HOST: catalogue.devopsaws.site
+USER_HOST: user.devopsaws.site
+SHIPPING_HOST: shipping.devopsaws.site
+CART_HOST: cart.devopsaws.site
+PAYMENT_HOST: payment.devopsaws.site
