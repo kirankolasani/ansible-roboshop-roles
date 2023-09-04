@@ -1,26 +1,26 @@
-  - name: cheking user if alredy existed
-    ansible.builtin.command: id roboshop
-    register: out
-    ignore_errors: true
+- name: cheking user if alredy existed
+  ansible.builtin.command: id roboshop
+  register: out
+  ignore_errors: true
 
-  - name: creating user if not existed
-    ansible.builtin.user:
-      name: roboshop
-    when: out.rc != 0
+- name: creating user if not existed
+  ansible.builtin.user:
+    name: roboshop
+  when: out.rc != 0
 
-  - name: checking dir
-    ansible.builtin.stat:
-      path: /app
-    register: dir
+- name: checking dir
+  ansible.builtin.stat:
+    path: /app
+  register: dir
 
-  - name: creating dir
-    ansible.builtin.file:
-      path: /app
-      state: directory
-    when: dir.stat.exists == False
-    
-  - name: Download Unarchive a {{component}} package on the remote machine
-    ansible.builtin.unarchive:
-      src: https://roboshop-builds.s3.amazonaws.com/{{component}}.zip
-      dest: /app
-      remote_src: yes
+- name: creating dir
+  ansible.builtin.file:
+    path: /app
+    state: directory
+  when: dir.stat.exists == False
+  
+- name: Download Unarchive a {{component}} package on the remote machine
+  ansible.builtin.unarchive:
+    src: https://roboshop-builds.s3.amazonaws.com/{{component}}.zip
+    dest: /app
+    remote_src: yes
